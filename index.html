@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <meta name="theme-color" content="#07140f">
+
+  <title>Revibe — Créer un compte</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+      min-height: 100vh;
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(16, 185, 129, 0.12),
+          transparent 35%
+        ),
+        #07140f;
+
+      color: #ffffff;
+    }
+
+    .page {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 28px 18px 40px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 470px;
+    }
+
+    /* LOGO */
+
+    .brand {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      width: 74px;
+      height: 74px;
+      margin: 0 auto 14px;
+
+      border-radius: 22px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #13b981,
+          #087f5b
+        );
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 31px;
+      font-weight: 800;
+
+      color: #ffffff;
+
+      box-shadow:
+        0 12px 35px rgba(16, 185, 129, 0.18);
+    }
+
+    .brand-name {
+      font-size: 29px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+    }
+
+    .brand-subtitle {
+      margin-top: 6px;
+      color: #8fa59c;
+      font-size: 14px;
+    }
+
+    /* CARD */
+
+    .card {
+      background: rgba(11, 30, 23, 0.94);
+
+      border: 1px solid rgba(255,255,255,0.07);
+
+      border-radius: 24px;
+
+      padding: 24px 20px;
+
+      box-shadow:
+        0 25px 70px rgba(0,0,0,0.28);
+    }
+
+    .title {
+      font-size: 25px;
+      font-weight: 750;
+      margin-bottom: 7px;
+    }
+
+    .description {
+      color: #91a69d;
+      font-size: 14px;
+      line-height: 1.55;
+      margin-bottom: 24px;
+    }
+
+    /* FORM */
+
+    .field {
+      margin-bottom: 17px;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 8px;
+
+      font-size: 13px;
+      font-weight: 650;
+
+      color: #dce8e3;
+    }
+
+    .input,
+    .select {
+      width: 100%;
+
+      height: 51px;
+
+      padding: 0 15px;
+
+      border-radius: 13px;
+
+      border: 1px solid #203d31;
+
+      background: #091c15;
+
+      color: #ffffff;
+
+      font-size: 15px;
+
+      outline: none;
+
+      transition: 0.2s;
+    }
+
+    .input::placeholder {
+      color: #5e766c;
+    }
+
+    .input:focus,
+    .select:focus {
+      border-color: #10b981;
+
+      box-shadow:
+        0 0 0 3px rgba(16,185,129,0.09);
+    }
+
+    .select {
+      appearance: none;
+
+      background-image:
+        linear-gradient(45deg, transparent 50%, #8da69b 50%),
+        linear-gradient(135deg, #8da69b 50%, transparent 50%);
+
+      background-position:
+        calc(100% - 18px) 21px,
+        calc(100% - 12px) 21px;
+
+      background-size: 6px 6px;
+      background-repeat: no-repeat;
+
+      padding-right: 40px;
+    }
+
+    .select option {
+      background: #091c15;
+      color: white;
+    }
+
+    /* ACCOUNT TYPE */
+
+    .roles {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .role {
+      position: relative;
+    }
+
+    .role input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .role-label {
+      display: block;
+
+      padding: 14px;
+
+      border: 1px solid #203d31;
+
+      border-radius: 13px;
+
+      background: #091c15;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+    .role-title {
+      display: block;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      color: #ffffff;
+    }
+
+    .role-text {
+      display: block;
+
+      margin-top: 4px;
+
+      color: #789087;
+
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .role input:checked + .role-label {
+      border-color: #10b981;
+
+      background:
+        rgba(16,185,129,0.09);
+
+      box-shadow:
+        inset 0 0 0 1px rgba(16,185,129,0.15);
+    }
+
+    /* PASSWORD */
+
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper .input {
+      padding-right: 55px;
+    }
+
+    .password-toggle {
+      position: absolute;
+
+      right: 12px;
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      border: none;
+      background: transparent;
+
+      color: #7e968c;
+
+      cursor: pointer;
+
+      font-size: 12px;
+    }
+
+    /* BUTTON */
+
+    .submit {
+      width: 100%;
+
+      height: 53px;
+
+      margin-top: 7px;
+
+      border: none;
+
+      border-radius: 14px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #16c98b,
+          #0d9f6e
+        );
+
+      color: white;
+
+      font-size: 15px;
+      font-weight: 750;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+
+      box-shadow:
+        0 10px 25px rgba(16,185,129,0.13);
+    }
+
+    .submit:hover {
+      transform: translateY(-1px);
+    }
+
+    .submit:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* MESSAGE */
+
+    .message {
+      display: none;
+
+      margin-bottom: 18px;
+
+      padding: 12px 13px;
+
+      border-radius: 11px;
+
+      font-size: 13px;
+
+      line-height: 1.45;
+    }
+
+    .message.error {
+      display: block;
+
+      background: rgba(239,68,68,0.09);
+
+      border: 1px solid rgba(239,68,68,0.22);
+
+      color: #ffaaa6;
+    }
+
+    .message.success {
+      display: block;
+
+      background: rgba(16,185,129,0.09);
+
+      border: 1px solid rgba(16,185,129,0.22);
+
+      color: #75e5bd;
+    }
+
+    /* FOOTER */
+
+    .login-link {
+      text-align: center;
+
+      margin-top: 22px;
+
+      color: #82978e;
+
+      font-size: 14px;
+    }
+
+    .login-link a {
+      color: #27cf96;
+
+      text-decoration: none;
+
+      font-weight: 700;
+    }
+
+    .legal {
+      text-align: center;
+
+      margin-top: 20px;
+
+      color: #52675e;
+
+      font-size: 11px;
+
+      line-height: 1.6;
+    }
+
+    /* LOADER */
+
+    .loader {
+      width: 17px;
+      height: 17px;
+
+      border: 2px solid rgba(255,255,255,0.35);
+
+      border-top-color: white;
+
+      border-radius: 50%;
+
+      animation: spin 0.7s linear infinite;
+
+      display: inline-block;
+
+      vertical-align: middle;
+
+      margin-right: 7px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (min-width: 600px) {
+      .page {
+        padding-top: 55px;
+      }
+
+      .card {
+        padding: 30px;
+      }
+
+      .roles {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .role:last-child {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <div class="container">
+
+      <!-- BRAND -->
+
+      <header class="brand">
+
+        <div class="logo">
+          R
+        </div>
+
+        <div class="brand-name">
+          Revibe
+        </div>
+
+        <div class="brand-subtitle">
+          Mode · Style · Opportunités
+        </div>
+
+      </header>
+
+
+      <!-- REGISTER -->
+
+      <section class="card">
+
+        <h1 class="title">
+          Créer votre compte
+        </h1>
+
+        <p class="description">
+          Rejoignez Revibe et accédez à votre espace personnel.
+        </p>
+
+
+        <div id="message" class="message"></div>
+
+
+        <form id="registerForm">
+
+          <!-- NAME -->
+
+          <div class="field">
+
+            <label class="label" for="fullName">
+              Nom complet
+            </label>
+
+            <input
+              class="input"
+              id="fullName"
+              name="fullName"
+              type="text"
+              placeholder="Ex. Jean Ouédraogo"
+              autocomplete="name"
+              required
+            >
+
+          </div>
+
+
+          <!-- EMAIL -->
+
+          <div class="field">
+
+            <label class="label" for="email">
+              Adresse e-mail
+            </label>
+
+            <input
+              class="input"
+              id="email"
+              name="email"
+              type="email"
+              placeholder="vous@exemple.com"
+              autocomplete="email"
+              required
+            >
+
+          </div>
+
+
+          <!-- COUNTRY -->
+
+          <div class="field">
+
+            <label class="label" for="country">
+              Pays
+            </label>
+
+            <select
+              class="select"
+              id="country"
+              name="country"
+              required
+            >
+
+              <option value="">
+                Sélectionner votre pays
+              </option>
+
+              <option value="BF">
+                Burkina Faso
+              </option>
+
+              <option value="CI">
+                Côte d'Ivoire
+              </option>
+
+              <option value="BJ">
+                Bénin
+              </option>
+
+              <option value="TG">
+                Togo
+              </option>
+
+              <option value="ML">
+                Mali
+              </option>
+
+              <option value="NE">
+                Niger
+              </option>
+
+              <option value="SN">
+                Sénégal
+              </option>
+
+              <option value="GN">
+                Guinée
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- PASSWORD -->
+
+          <div class="field">
+
+            <label class="label" for="password">
+              Mot de passe
+            </label>
+
+            <div class="password-wrapper">
+
+              <input
+                class="input"
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Minimum 8 caractères"
+                autocomplete="new-password"
+                minlength="8"
+                required
+              >
+
+              <button
+                type="button"
+                class="password-toggle"
+                data-target="password"
+              >
+                Afficher
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- CONFIRM -->
+
+          <div class="field">
+
+            <label class="label" for="passwordConfirm">
+              Confirmer le mot de passe
+            </label>
+
+            <div class="password-wrapper">
+
+              <input
+                class="input"
+                id="passwordConfirm"
+                name="passwordConfirm"
+                type="password"
+                placeholder="Répétez votre mot de passe"
+                autocomplete="new-password"
+                minlength="8"
+                required
+              >
+
+              <button
+                type="button"
+                class="password-toggle"
+                data-target="passwordConfirm"
+              >
+                Afficher
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- ACCOUNT TYPE -->
+
+          <div class="field">
+
+            <label class="label">
+              Type de compte
+            </label>
+
+            <div class="roles">
+
+              <div class="role">
+
+                <input
+                  type="radio"
+                  id="roleClient"
+                  name="role"
+                  value="client"
+                  checked
+                >
+
+                <label
+                  class="role-label"
+                  for="roleClient"
+                >
+
+                  <span class="role-title">
+                    Client
+                  </span>
+
+                  <span class="role-text">
+                    Acheter et suivre mes commandes
+                  </span>
+
+                </label>
+
+              </div>
+
+
+              <div class="role">
+
+                <input
+                  type="radio"
+                  id="roleSeller"
+                  name="role"
+                  value="seller"
+                >
+
+                <label
+                  class="role-label"
+                  for="roleSeller"
+                >
+
+                  <span class="role-title">
+                    Vendeur
+                  </span>
+
+                  <span class="role-text">
+                    Créer ma boutique et vendre
+                  </span>
+
+                </label>
+
+              </div>
+
+
+              <div class="role">
+
+                <input
+                  type="radio"
+                  id="roleDriver"
+                  name="role"
+                  value="driver"
+                >
+
+                <label
+                  class="role-label"
+                  for="roleDriver"
+                >
+
+                  <span class="role-title">
+                    Postuler comme livreur
+                  </span>
+
+                  <span class="role-text">
+                    Recevoir et effectuer des missions
+                  </span>
+
+                </label>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- SUBMIT -->
+
+          <button
+            type="submit"
+            class="submit"
+            id="submitButton"
+          >
+            Créer mon compte
+          </button>
+
+        </form>
+
+
+        <div class="login-link">
+
+          Vous avez déjà un compte ?
+
+          <a href="login.html">
+            Se connecter
+          </a>
+
+        </div>
+
+
+        <div class="legal">
+
+          En créant un compte, vous acceptez les
+          conditions d'utilisation et la politique de confidentialité
+          de Revibe.
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+
+  <script>
+
+    /* =========================================================
+       REVIBE — SUPABASE
+       ========================================================= */
+
+    const SUPABASE_URL =
+      "https://cmtbzozflkmxfhdzlgab.supabase.co";
+
+    /*
+      Clé publique uniquement.
+
+      NE JAMAIS mettre une service_role / secret key ici.
+    */
+
+    const SUPABASE_KEY =
+      "sb_publishable_ZzqLlH7Iz10HBq8SGoXdmA_l1XhBl7T";
+
+    const { createClient } = supabase;
+
+    const db = createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY,
+      {
+        auth: {
+          persistSession: false,
+          autoRefreshToken: false,
+          detectSessionInUrl: false
+        }
+      }
+    );
+
+
+    /* =========================================================
+       ELEMENTS
+       ========================================================= */
+
+    const form =
+      document.getElementById("registerForm");
+
+    const message =
+      document.getElementById("message");
+
+    const submitButton =
+      document.getElementById("submitButton");
+
+
+    /* =========================================================
+       MESSAGE
+       ========================================================= */
+
+    function showMessage(text, type) {
+
+      message.textContent = text;
+
+      message.className =
+        "message " + type;
+
+    }
+
+
+    function clearMessage() {
+
+      message.textContent = "";
+
+      message.className = "message";
+
+    }
+
+
+    /* =========================================================
+       PASSWORD VISIBILITY
+       ========================================================= */
+
+    document
+      .querySelectorAll(".password-toggle")
+      .forEach(button => {
+
+        button.addEventListener("click", () => {
+
+          const input =
+            document.getElementById(
+              button.dataset.target
+            );
+
+          if (input.type === "password") {
+
+            input.type = "text";
+
+            button.textContent = "Masquer";
+
+          } else {
+
+            input.type = "password";
+
+            button.textContent = "Afficher";
+
+          }
+
+        });
+
+      });
+
+
+    /* =========================================================
+       REGISTER
+       ========================================================= */
+
+    form.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+        clearMessage();
+
+
+        const fullName =
+          document
+            .getElementById("fullName")
+            .value
+            .trim();
+
+
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+        const country =
+          document
+            .getElementById("country")
+            .value;
+
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+
+        const passwordConfirm =
+          document
+            .getElementById("passwordConfirm")
+            .value;
+
+
+        const role =
+          document
+            .querySelector(
+              'input[name="role"]:checked'
+            )
+            .value;
+
+
+        /* VALIDATIONS */
+
+        if (fullName.length < 2) {
+
+          showMessage(
+            "Veuillez saisir votre nom complet.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        if (!email.includes("@")) {
+
+          showMessage(
+            "Veuillez saisir une adresse e-mail valide.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        if (!country) {
+
+          showMessage(
+            "Veuillez sélectionner votre pays.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        if (password.length < 8) {
+
+          showMessage(
+            "Le mot de passe doit contenir au moins 8 caractères.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        if (password !== passwordConfirm) {
+
+          showMessage(
+            "Les deux mots de passe ne correspondent pas.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        /* LOADING */
+
+        submitButton.disabled = true;
+
+        submitButton.innerHTML =
+          '<span class="loader"></span> Création du compte...';
+
+
+        try {
+
+          /*
+            Appel de notre authentification personnalisée.
+
+            Le mot de passe est transmis à la fonction SQL
+            register_user(), qui s'occupe du hash côté serveur.
+          */
+
+          const { data, error } =
+            await db.rpc(
+              "register_user",
+              {
+                p_email: email,
+                p_password: password,
+                p_full_name: fullName,
+                p_country_code: country,
+                p_role: role
+              }
+            );
+
+
+          if (error) {
+
+            console.error(
+              "Erreur Supabase:",
+              error
+            );
+
+            throw new Error(
+              error.message ||
+              "Impossible de créer le compte."
+            );
+
+          }
+
+
+          /*
+            La fonction SQL peut retourner
+            un objet ou une ligne.
+          */
+
+          let result = data;
+
+          if (Array.isArray(data)) {
+            result = data[0];
+          }
+
+
+          showMessage(
+            "Votre compte Revibe a été créé avec succès. Redirection...",
+            "success"
+          );
+
+
+          /*
+            Si register_user retourne un session_token,
+            on le conserve localement pour la suite.
+          */
+
+          if (
+            result &&
+            result.session_token
+          ) {
+
+            localStorage.setItem(
+              "revibe_session_token",
+              result.session_token
+            );
+
+          }
+
+
+          /*
+            Petite pause pour afficher
+            le message de succès.
+          */
+
+          setTimeout(() => {
+
+            if (role === "seller") {
+
+              window.location.href =
+                "seller/profile.html";
+
+            } else if (role === "driver") {
+
+              window.location.href =
+                "driver/profile.html";
+
+            } else {
+
+              window.location.href =
+                "client/index.html";
+
+            }
+
+          }, 900);
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          let errorMessage =
+                errorMessage =
+    "Une erreur est survenue.";
+
+    /*
+      Messages plus propres pour l'utilisateur.
+    */
+
+    if (
+      errorMessage
+      .toLowerCase()
+      .includes("duplicate")
+    ) {
+
+      errorMessage =
+      "Cette adresse e-mail est déjà utilisée.";
+
+    }
+
+    if (
+      errorMessage
+      .toLowerCase()
+      .includes("already")
+    ) {
+
+      errorMessage =
+      "Cette adresse e-mail est déjà utilisée.";
+
+    }
+
+    showMessage(
+      errorMessage,
+      "error"
+    );
+
+  } finally {
+
+    submitButton.disabled = false;
+
+    submitButton.textContent =
+    "Créer mon compte";
+
+  }
+}
+);
+
+</script>
+
+</body>
+</html>
