@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revibe — Marketplace</title>
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    body{
+      font-family:Arial,sans-serif;
+      background:#f6f8f7;
+      color:#102019;
+      padding-bottom:75px;
+    }
+
+    header{
+      background:#03140a;
+      padding:18px 16px 20px;
+      color:white;
+    }
+
+    .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:22px;
+      font-weight:800;
+    }
+
+    .logo{
+      width:38px;
+      height:38px;
+      border-radius:11px;
+      background:#10b981;
+      color:#03140a;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+      font-size:21px;
+    }
+
+    .cart{
+      position:relative;
+      color:white;
+      font-size:19px;
+      text-decoration:none;
+    }
+
+    .badge{
+      position:absolute;
+      top:-8px;
+      right:-9px;
+      background:#d4a317;
+      color:#111;
+      font-size:10px;
+      width:17px;
+      height:17px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:bold;
+    }
+
+    .search{
+      margin-top:18px;
+      background:white;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      padding:0 13px;
+    }
+
+    .search i{
+      color:#789084;
+    }
+
+    .search input{
+      width:100%;
+      border:0;
+      outline:0;
+      padding:14px 10px;
+      font-size:14px;
+    }
+
+    main{
+      max-width:900px;
+      margin:auto;
+      padding:20px 15px;
+    }
+
+    .section-title{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:13px;
+    }
+
+    .section-title h2{
+      font-size:18px;
+    }
+
+    .section-title a{
+      color:#07845c;
+      font-size:13px;
+      text-decoration:none;
+    }
+
+    .categories{
+      display:flex;
+      gap:10px;
+      overflow-x:auto;
+      padding-bottom:6px;
+    }
+
+    .category{
+      min-width:105px;
+      background:white;
+      border:1px solid #e5ebe7;
+      border-radius:13px;
+      padding:15px 10px;
+      text-align:center;
+      cursor:pointer;
+    }
+
+    .category i{
+      font-size:20px;
+      color:#07845c;
+      margin-bottom:8px;
+    }
+
+    .category span{
+      display:block;
+      font-size:12px;
+      font-weight:600;
+    }
+
+    .products{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:13px;
+    }
+
+    .product{
+      background:white;
+      border:1px solid #e6ebe8;
+      border-radius:14px;
+      overflow:hidden;
+    }
+
+    .product-image{
+      width:100%;
+      height:165px;
+      background:#edf2ef;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#91a49a;
+    }
+
+    .product-image img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .product-info{
+      padding:12px;
+    }
+
+    .product-name{
+      font-size:14px;
+      font-weight:700;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .seller{
+      margin-top:5px;
+      color:#7b8c83;
+      font-size:11px;
+    }
+
+    .bottom{
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      height:68px;
+      background:white;
+      border-top:1px solid #e2e8e4;
+      display:flex;
+      justify-content:space-around;
+      align-items:center;
+      z-index:10;
+    }
+
+    .bottom a{
+      color:#718178;
+      text-decoration:none;
+      text-align:center;
+      font-size:11px;
+    }
+
+    .bottom i{
+      display:block;
+      font-size:18px;
+      margin-bottom:5px;
+    }
+
+    .bottom .active{
+      color:#07845c;
+      font-weight:bold;
+    }
+
+    .empty{
+      grid-column:1/-1;
+      text-align:center;
+      padding:35px 10px;
+      color:#819087;
+    }
+
+    @media(min-width:700px){
+      .products{
+        grid-template-columns:repeat(4,1fr);
+      }
+
+      .product-image{
+        height:190px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="top">
+    <div class="brand">
+      <div class="logo">R</div>
+      <span>Revibe</span>
+    </div>
+
+    <a href="../cart.html" class="cart">
+      <i class="fa-solid fa-bag-shopping"></i>
+      <span class="badge" id="cartCount">0</span>
+    </a>
+  </div>
+
+  <div class="search">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input id="searchInput"
+           type="search"
+           placeholder="Rechercher un produit...">
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <div class="section-title">
+      <h2>Catégories</h2>
+      <a href="../catalogue.html">Voir tout</a>
+    </div>
+
+    <div class="categories" id="categories">
+      <div class="category" data-category="">
+        <i class="fa-solid fa-layer-group"></i>
+        <span>Tout</span>
+      </div>
+
+      <div class="category" data-category="Chaussures">
+        <i class="fa-solid fa-shoe-prints"></i>
+        <span>Chaussures</span>
+      </div>
+
+      <div class="category" data-category="Friperie">
+        <i class="fa-solid fa-shirt"></i>
+        <span>Friperie</span>
+      </div>
+
+      <div class="category" data-category="Sacs">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span>Sacs</span>
+      </div>
+
+      <div class="category" data-category="Accessoires">
+        <i class="fa-solid fa-glasses"></i>
+        <span>Accessoires</span>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top:28px">
+    <div class="section-title">
+      <h2>Produits disponibles</h2>
+      <a href="../catalogue.html">Voir tout</a>
+    </div>
+
+    <div class="products" id="products">
+      <div class="empty">Chargement des produits...</div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="bottom">
+  <a href="index.html" class="active">
+    <i class="fa-solid fa-house"></i>
+    Accueil
+  </a>
+
+  <a href="../catalogue.html">
+    <i class="fa-solid fa-grid-2"></i>
+    Catégories
+  </a>
+
+  <a href="../cart.html">
+    <i class="fa-solid fa-bag-shopping"></i>
+    Panier
+  </a>
+
+  <a href="../order.html">
+    <i class="fa-solid fa-receipt"></i>
+    Commandes
+  </a>
+
+  <a href="../account.html">
+    <i class="fa-solid fa-user"></i>
+    Compte
+  </a>
+</nav>
+
+<script src="index.js"></script>
+
+</body>
+  </html>
